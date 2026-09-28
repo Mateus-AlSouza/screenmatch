@@ -45,5 +45,7 @@ public class Principal {
 //        }
 
         temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println("------- Season "+t.numero()+" -------"+"\n"+"      episódio "+e.numero()+"\n"+e.titulo())));
+
+
     }
 }
