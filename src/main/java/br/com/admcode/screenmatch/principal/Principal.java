@@ -1,10 +1,10 @@
-package br.com.alura.screenmatch.principal;
+package br.com.admcode.screenmatch.principal;
 
-import br.com.alura.screenmatch.model.DadosSerie;
-import br.com.alura.screenmatch.model.DadosTemporada;
-import br.com.alura.screenmatch.model.Episodio;
-import br.com.alura.screenmatch.service.ConsumoApi;
-import br.com.alura.screenmatch.service.ConverteDados;
+import br.com.admcode.screenmatch.model.DadosSerie;
+import br.com.admcode.screenmatch.model.DadosTemporadas;
+import br.com.admcode.screenmatch.model.DadosEpisodios;
+import br.com.admcode.screenmatch.service.ConsumoApi;
+import br.com.admcode.screenmatch.service.ConverterDados;
 
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
@@ -17,7 +17,7 @@ public class Principal {
 
     private Scanner leitura = new Scanner(System.in);
     private ConsumoApi consumo = new ConsumoApi();
-    private ConverteDados conversor = new ConverteDados();
+    private ConverterDados conversor = new ConverterDados();
     private final String ENDERECO = "https://www.omdbapi.com/?t=";
     private final String API_KEY = "&apikey=6585022c";
 
@@ -63,11 +63,11 @@ public class Principal {
 
     private void buscarEpisodioPorSerie(){
         DadosSerie dadosSerie = getDadosSerie();
-        List<DadosTemporada> temporadas = new ArrayList<>();
+        List<DadosTemporadas> temporadas = new ArrayList<>();
 
         for (int i = 1; i <= dadosSerie.totalTemporadas(); i++) {
             var json = consumo.obterDados(ENDERECO + dadosSerie.titulo().replace(" ", "+") + "&season=" + i + API_KEY);
-            DadosTemporada dadosTemporada = conversor.obterDados(json, DadosTemporada.class);
+            DadosTemporadas dadosTemporada = conversor.obterDados(json, DadosTemporadas.class);
             temporadas.add(dadosTemporada);
         }
         temporadas.forEach(System.out::println);
