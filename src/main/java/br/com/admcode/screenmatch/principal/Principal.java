@@ -1,14 +1,13 @@
 package br.com.admcode.screenmatch.principal;
 
-import br.com.admcode.screenmatch.model.DadosSerie;
-import br.com.admcode.screenmatch.model.DadosTemporadas;
-import br.com.admcode.screenmatch.model.Episodio;
-import br.com.admcode.screenmatch.model.Serie;
+import br.com.admcode.screenmatch.model.*;
 import br.com.admcode.screenmatch.repository.SerieRepository;
 import br.com.admcode.screenmatch.service.ConsumoApi;
 import br.com.admcode.screenmatch.service.ConverterDados;
 
 import java.util.*;
+
+import static java.awt.SystemColor.text;
 
 public class Principal {
 
@@ -34,6 +33,8 @@ public class Principal {
                 4 - Buscar por titulo
                 5 - Buscar por atores
                 6 - Ranking de Series
+                7 - Buscar por gênero
+                
                 0 - Sair
                 """;
 
@@ -57,6 +58,8 @@ public class Principal {
                 buscarSeriePorAtores();
             case 6:
                 rankingSeries();
+            case 7:
+                buscarSeriesPorCategoria();
             case 0:
                 System.out.println("Saindo...");
                 break;
@@ -147,6 +150,15 @@ public class Principal {
     private void rankingSeries(){
         List<Serie> seriesTop = repositorio.findTop5ByOrderByVotacaoDesc();
         seriesTop.forEach(s -> System.out.println(s.getTitulo() + ", Avaliação: " + s.getVotacao() ));
+    }
+
+    private void buscarSeriesPorCategoria(){
+        System.out.println("Qual o gênero que gostaria de filtrar ?");
+        var nomeGenero = leitura.nextLine();
+        Categoria categoria = Categoria.fromPortugues(nomeGenero);
+        List<Serie> seriesPorCategoria = repositorio.findByGenero(categoria);
+        System.out.println("Series da categoria " + nomeGenero);
+        seriesPorCategoria.forEach(c -> System.out.println(c.getTitulo() + ", gênero: " + c.getGenero()));
     }
 
 
