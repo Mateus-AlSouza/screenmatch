@@ -33,6 +33,7 @@ public class Principal {
                 3 - Historico de busca
                 4 - Buscar por titulo
                 5 - Buscar por atores
+                6 - Ranking de Series
                 0 - Sair
                 """;
 
@@ -54,6 +55,8 @@ public class Principal {
                 buscarSeriePorTitulo();
             case 5:
                 buscarSeriePorAtores();
+            case 6:
+                rankingSeries();
             case 0:
                 System.out.println("Saindo...");
                 break;
@@ -139,6 +142,11 @@ public class Principal {
         List<Serie> seriesEncontradas = repositorio.findByAtoresContainingIgnoreCase(nomeAtores);
             System.out.println("Dados das séries: ");
         seriesEncontradas.forEach(s -> System.out.println(s.getTitulo() + ", Avaliação: " + s.getVotacao() ));
+    }
+
+    private void rankingSeries(){
+        List<Serie> seriesTop = repositorio.findTop5ByOrderByVotacaoDesc();
+        seriesTop.forEach(s -> System.out.println(s.getTitulo() + ", Avaliação: " + s.getVotacao() ));
     }
 
 

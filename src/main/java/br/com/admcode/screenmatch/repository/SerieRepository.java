@@ -10,6 +10,8 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
     boolean existsByTitulo(String titulo);
     Optional<Serie> findByTituloContainingIgnoreCase(String nomeSerie);
     List<Serie> findByAtoresContainingIgnoreCase(String nomeAtores);
+
+    List<Serie> findTop5ByOrderByVotacaoDesc();
 }
 
 
