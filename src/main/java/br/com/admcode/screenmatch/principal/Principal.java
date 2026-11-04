@@ -5,6 +5,8 @@ import br.com.admcode.screenmatch.repository.SerieRepository;
 import br.com.admcode.screenmatch.service.ConsumoApi;
 import br.com.admcode.screenmatch.service.ConverterDados;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static java.awt.SystemColor.text;
@@ -34,6 +36,7 @@ public class Principal {
                 5 - Buscar por atores
                 6 - Ranking de Series
                 7 - Buscar por gênero
+                8 - Buscar por Data de Lançamento
                 
                 0 - Sair
                 """;
@@ -60,6 +63,8 @@ public class Principal {
                 rankingSeries();
             case 7:
                 buscarSeriesPorCategoria();
+            case 8:
+                filtrarSeriesPorTemporadaEAvaliacao();
             case 0:
                 System.out.println("Saindo...");
                 break;
@@ -159,6 +164,19 @@ public class Principal {
         List<Serie> seriesPorCategoria = repositorio.findByGenero(categoria);
         System.out.println("Series da categoria " + nomeGenero);
         seriesPorCategoria.forEach(c -> System.out.println(c.getTitulo() + ", gênero: " + c.getGenero()));
+    }
+
+    private void filtrarSeriesPorTemporadaEAvaliacao(){
+        System.out.println("Filtrar séries até quantas temporadas? ");
+        var totalTemporadas = leitura.nextInt();
+        leitura.nextLine();
+        System.out.println("Com avaliação a partir de que valor? ");
+        var votacao = leitura.nextDouble();
+        leitura.nextLine();
+        List<Serie> filtroSeries = repositorio.seriesPorTemporadaEAValiacao(totalTemporadas, votacao);
+        System.out.println("*** Séries filtradas ***");
+        filtroSeries.forEach(s ->
+                System.out.println(s.getTitulo() + "  - avaliação: " + s.getVotacao()));
     }
 
 
