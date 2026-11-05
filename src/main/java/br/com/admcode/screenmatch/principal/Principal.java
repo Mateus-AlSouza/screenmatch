@@ -41,6 +41,7 @@ public class Principal {
                 9 - Buscar por episódio
                 10 - Melhores episódios por série
                 11 - Buscar episódios a partir de uma data
+                
                 0 - Sair
                 """;
 
@@ -214,11 +215,22 @@ public class Principal {
             List<Episodio> topEpisodios = repositorio.topEpisodiosPorSerie(serie);
             topEpisodios.forEach(e ->
                     System.out.printf("Série: %s Temporada %s - Episódio %s - %s Avaliação %s\n",
-                    e.getSerie().getTitulo(), e.getTemporada(),
-                    e.getNumeroEpisodio(), e.getTitulo(), e.getAvaliacao() ));
+                            e.getSerie().getTitulo(), e.getTemporada(),
+                            e.getNumeroEpisodio(), e.getTitulo(), e.getAvaliacao() ));
         }
     }
 
+    private void buscarEpisodiosDepoisDeUmaData(){
+        buscarSeriePorTitulo();
+        if(serieBusca.isPresent()) {
+            Serie serie = serieBusca.get();
+            System.out.println("Digite o ano de lançamento: ");
+            var anoLancamento = leitura.nextInt();
+            leitura.nextLine();
+            List<Episodio> episodiosLancamento = repositorio.episodiosPorSerieEPorAno(serie, anoLancamento);
+            episodiosLancamento.forEach(System.out::println);
+        }
+    }
 
 }
 
